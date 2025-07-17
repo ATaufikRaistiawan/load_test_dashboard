@@ -71,3 +71,36 @@ table th {
     gap: 10px;
     margin-bottom: 20px;
 }
+
+/* Only apply to the history page */
+body.history-page {
+    background-color: #fff;
+    color: #333;
+}
+
+body.history-page h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+body.history-page table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+body.history-page th, 
+body.history-page td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+body.history-page tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+body.history-page tr[style] {
+    font-weight: bold;
+    color: red;
+}

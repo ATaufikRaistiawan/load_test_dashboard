@@ -151,17 +151,22 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Date</th>
-                        <th>Time</th>
+                        <th>Date Time</th>
                         <th>Rev</th>
                         <th>RPM</th>
                         <th>Torque</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($data as $row)
                     <tr>
-                        <td colspan="6">No data</td>
+                        <td>{{ $row->id }}</td>
+                        <td>{{ $row->timestamp }}</td>
+                        <td>{{ $row->rpm }}</td>
+                        <td>{{ $row->total_revs }}</td>
+                        <td>{{ $row->load_kn }}</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -196,8 +201,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Date</th>
-                        <th>Time</th>
+                        <th>Date Time</th>
                         <th>Rev</th>
                         <th>RPM</th>
                         <th>Torque</th>
@@ -206,6 +210,7 @@
                 <tbody>
                     @foreach($data as $row)
                     <tr>
+                        <td>{{ $row->id }}</td>
                         <td>{{ $row->timestamp }}</td>
                         <td>{{ $row->rpm }}</td>
                         <td>{{ $row->total_revs }}</td>
@@ -223,5 +228,7 @@
         <div class="nav-icon">📄</div>
     </footer>
 </body>
+
+
 
 </html>
