@@ -23,3 +23,7 @@ Route::get('/history', [HistoryController::class, 'index'])->name('history');
 // Machine status
 
 Route::get('/api/machine-status', [DashboardController::class, 'getStatus']);
+
+// Latest data
+
+Route::get('/api/latest-data', [DashboardController::class, 'getLatestJson']);

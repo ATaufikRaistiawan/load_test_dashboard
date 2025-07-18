@@ -149,7 +149,10 @@
     <header>
         <div class="logo">YAMAHA</div>
         <div class="title">DURABILITY LOAD TEST M/C</div>
-        <div>{{ now()->format('h:i:s A') }}<br>{{ now()->format('D, d M Y') }}</div>
+        <div id="clock">
+            <div id="time">--:--:--</div>
+            <div id="date">--, -- --- ----</div>
+        </div>
     </header>
 
     <div style="display: flex; justify-content: center;">
@@ -173,7 +176,7 @@
                     <span>TARGET</span>
                 </div>
                 <div class="data-box">
-                    <span>0</span>
+                    <span id="left-rpm">{{ $left->rpm ?? 'N/A' }}</span>
                     <span>0</span>
                 </div>
                 <div class="data-box-h2">
@@ -184,7 +187,7 @@
                     <span>TARGET</span>
                 </div>
                 <div class="data-box">
-                    <span>0</span>
+                    <span id="left-revs">{{ $left->total_revs ?? 'N/A' }}</span>
                     <span>0</span>
                 </div>
                 <div class="data-box-h2">
@@ -195,7 +198,7 @@
                     <span>TARGET</span>
                 </div>
                 <div class="data-box">
-                    <span>0</span>
+                    <span id="left-load">{{ $left->load_kn ?? 'N/A' }} kN</span>
                     <span>0</span>
                 </div>
             </div>
@@ -284,6 +287,8 @@
     </footer>
 
     <script src="{{ asset('js/status-indicator.js') }}"></script>
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ asset('js/clock.js') }}"></script>
 </body>
 
 

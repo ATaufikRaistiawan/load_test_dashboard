@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MachineData;
+use App\Models\MachineLeftData;
+use App\Models\MachineRightData;
+
 
 class DashboardController extends Controller
 {
@@ -20,7 +23,6 @@ class DashboardController extends Controller
 
         return view('dashboard', compact('data', 'timestamps', 'rpm', 'revs', 'load'));
     }
-
     public function getData()
 {
     $data = MachineData::latest()->take(10)->get()->reverse(); // or whatever query you use
@@ -32,5 +34,17 @@ class DashboardController extends Controller
         'rows' => $data
     ]);
 }
+    public function getLatestJson()
+{
+    $left = MachineLeftData::latest('timestamp')->first();
+    $right = MachineRightData::latest('timestamp')->first();
+
+    return response()->json([
+        'left' => $left,
+        'right' => $right,
+    ]);
+}
+
+
 
 }
