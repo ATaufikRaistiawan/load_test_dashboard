@@ -53,18 +53,41 @@
             background: #f9f9f9;
             padding: 8px;
             margin: 5px 0;
+            font-weight: bold;
         }
 
         .data-box {
             display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
+            justify-content: center;
+            padding: 0px 0;
+        }
+
+        .data-box-h2 {
+            text-align: center;
+            background: darkgrey;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .data-box-h3 {
+            display: flex;
+            justify-content: center;
+            padding: 0px 0;
+            background: black;
+            color: #fff;
         }
 
         .data-box span {
-            width: 48%;
+            width: 50%;
             text-align: center;
             background: #fff;
+            border: 1px solid #ccc;
+            padding: 4px;
+        }
+
+        .data-box-h3 span {
+            width: 50%;
+            text-align: center;
             border: 1px solid #ccc;
             padding: 4px;
         }
@@ -110,7 +133,16 @@
             margin: auto;
         }
 
+        .status-box {
+            padding: 10px 20px;
+            font-weight: bold;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+            width: 80px;
+
     </style>
+
 </head>
 
 <body>
@@ -128,22 +160,43 @@
 
             <div class="section-title">Work Status</div>
             <div class="buttons">
-                <button>RUN</button>
-                <button>STOP</button>
+                <div id="left-run" class="status-box">RUN</div>
+                <div id="left-stop" class="status-box">STOP</div>
             </div>
 
             <div class="card">
-                <div class="data-box">
-                    <span>Speed (RPM)<br>ACTUAL: 0</span>
-                    <span>TARGET: 0</span>
+                <div class="data-box-h2">
+                    <span>Speed (RPM)</span>
+                </div>
+                <div class="data-box-h3">
+                    <span>ACTUAL</span>
+                    <span>TARGET</span>
                 </div>
                 <div class="data-box">
-                    <span>Rev Counter<br>ACTUAL: 0</span>
-                    <span>TARGET: 0</span>
+                    <span>0</span>
+                    <span>0</span>
+                </div>
+                <div class="data-box-h2">
+                    <span>Rev Counter</span>
+                </div>
+                <div class="data-box-h3">
+                    <span>ACTUAL</span>
+                    <span>TARGET</span>
                 </div>
                 <div class="data-box">
-                    <span>Load (kN)<br>ACTUAL: 0</span>
-                    <span>TARGET: 0</span>
+                    <span>0</span>
+                    <span>0</span>
+                </div>
+                <div class="data-box-h2">
+                    <span>Load (kN)</span>
+                </div>
+                <div class="data-box-h3">
+                    <span>ACTUAL</span>
+                    <span>TARGET</span>
+                </div>
+                <div class="data-box">
+                    <span>0</span>
+                    <span>0</span>
                 </div>
             </div>
 
@@ -178,8 +231,8 @@
 
             <div class="section-title">Work Status</div>
             <div class="buttons">
-                <button>RUN</button>
-                <button>STOP</button>
+                <div id="right-run" class="status-box">RUN</div>
+                <div id="right-stop" class="status-box">STOP</div>
             </div>
 
             <div class="card">
@@ -222,11 +275,15 @@
         </div>
     </div>
 
-    <footer>
-        <div class="nav-icon">🏠</div>
-        <div class="nav-icon">⚙️</div>
-        <div class="nav-icon">📄</div>
+    <!-- <x-footer /> -->
+    <footer class="footer-nav">
+        <nav>
+            <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">🖥 Dashboard</a>
+            <a href="{{ route('history') }}" class="{{ request()->is('history') ? 'active' : '' }}">📜 History</a>
+        </nav>
     </footer>
+
+    <script src="{{ asset('js/status-indicator.js') }}"></script>
 </body>
 
 

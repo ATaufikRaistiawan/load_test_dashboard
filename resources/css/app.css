@@ -10,6 +10,25 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/* Footer style */
+.footer-nav {
+    margin-top: 40px;
+    padding: 200px;
+    background-color: #f1f1f1;
+    text-align: center;
+    text-decoration: none;
+}
+.footer-nav a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+}
+.footer-nav a.active {
+    color: blue;
+    text-decoration: none;
+}
+
+/* Dashboard style */
 body {
     font-family: Arial, sans-serif;
     background-color: #f3f4f6;
@@ -72,7 +91,8 @@ table th {
     margin-bottom: 20px;
 }
 
-/* Only apply to the history page */
+/* History style */
+
 body.history-page {
     background-color: #fff;
     color: #333;

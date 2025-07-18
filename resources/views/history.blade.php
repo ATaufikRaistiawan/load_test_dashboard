@@ -1,5 +1,8 @@
+@extends('layouts.app') <!-- optional if using layout -->
+
 @section('content')
     <h1>Machine History</h1>
+    <body class="history-page">
 
     <table border="1" cellpadding="5" cellspacing="0">
         <tr>
@@ -15,7 +18,7 @@
                 <td>{{ $row->rpm }}</td>
                 <td>{{ $row->total_revs }}</td>
                 <td>{{ $row->load_kn }}</td>
-                <!-- <td>{{ $row->alarm ? 'ALARM' : 'Normal' }}</td> -->
+                <td>{{ $row->alarm ? 'ALARM' : 'Normal' }}</td>
             </tr>
         @endforeach
     </table>
