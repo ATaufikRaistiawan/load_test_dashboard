@@ -16,38 +16,58 @@ class HistoryController extends Controller
 {
     public function index(Request $request)
     {
-        // LEFT
-        $leftQuery = MachineLeftData::query();
-        // RIGHT
-        $rightQuery = MachineRightData::query();
+    $perPage = $request->input('per_page', 20); // default to 20
 
-        // Filters
-        foreach ([$leftQuery, $rightQuery] as $query) {
-            if ($request->filled('from')) {
-                $query->whereDate('timestamp', '>=', $request->from);
-            }
+    $queryLeft = MachineLeftData::query();
+    $queryRight = MachineRightData::query();
 
-            if ($request->filled('to')) {
-                $query->whereDate('timestamp', '<=', $request->to);
-            }
+    // Apply filters if you have them (from, to, status, etc.)
+    // example:
+    if ($request->filled('from')) {
+        $queryLeft->where('timestamp', '>=', $request->from);
+        $queryRight->where('timestamp', '>=', $request->from);
+    }
 
-            if ($request->status === 'alarm') {
-                $query->where('alarm', true);
-            } elseif ($request->status === 'normal') {
-                $query->where(function ($q) {
-                    $q->whereNull('alarm')->orWhere('alarm', false);
-                });
-            }
+    // ... same for other filters
 
-            if ($request->filled('min_rpm')) {
-                $query->where('rpm', '>=', $request->min_rpm);
-            }
-        }
+    $leftData = $queryLeft->orderBy('timestamp', 'desc')->paginate($perPage)->appends($request->all());
+    $rightData = $queryRight->orderBy('timestamp', 'desc')->paginate($perPage)->appends($request->all());
 
-        $leftData = $leftQuery->orderBy('timestamp', 'desc')->paginate(20, ['*'], 'left_page')->appends($request->all());
-        $rightData = $rightQuery->orderBy('timestamp', 'desc')->paginate(20, ['*'], 'right_page')->appends($request->all());
+    return view('history', compact('leftData', 'rightData'));
 
-        return view('history', compact('leftData', 'rightData'));
+
+        // // LEFT
+        // $leftQuery = MachineLeftData::query();
+        // // RIGHT
+        // $rightQuery = MachineRightData::query();
+
+        // // Filters
+        // foreach ([$leftQuery, $rightQuery] as $query) {
+        //     if ($request->filled('from')) {
+        //         $query->whereDate('timestamp', '>=', $request->from);
+        //     }
+
+        //     if ($request->filled('to')) {
+        //         $query->whereDate('timestamp', '<=', $request->to);
+        //     }
+
+        //     if ($request->status === 'alarm') {
+        //         $query->where('alarm', true);
+        //     } elseif ($request->status === 'normal') {
+        //         $query->where(function ($q) {
+        //             $q->whereNull('alarm')->orWhere('alarm', false);
+        //         });
+        //     }
+
+        //     if ($request->filled('min_rpm')) {
+        //         $query->where('rpm', '>=', $request->min_rpm);
+        //     }
+        // }
+
+        // $leftData = $leftQuery->orderBy('timestamp', 'desc')->paginate(20, ['*'], 'left_page')->appends($request->all());
+        // $rightData = $rightQuery->orderBy('timestamp', 'desc')->paginate(20, ['*'], 'right_page')->appends($request->all());
+
+        // return view('history', compact('leftData', 'rightData'));
     }
 
 public function export(Request $request)

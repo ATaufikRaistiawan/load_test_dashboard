@@ -28,7 +28,7 @@
         }
 
         .title {
-            font-size: 20px;
+            font-size: 30px;
             font-weight: bold;
             text-align: center;
         }
@@ -120,23 +120,13 @@
 </head>
 
 <body>
-    <!-- <header>
-        <div class="logo">
-            <img src="{{ asset('images/ypmi_logo_big.png') }}" class="machine-logo">
-        </div>
-        <div class="title">DURABILITY LOAD TEST M/C - HISTORY</div>
-        <div id="clock">
-            <div id="time">--:--:--</div>
-            <div id="date">--, -- --- ----</div>
-        </div>
-    </header> -->
 
     <header>
         <div class="logo">
             <img src="{{ asset('images/ypmi_logo_big.png') }}" class="machine-logo">
         </div>
         <div class="title">DURABILITY LOAD TEST M/C</br>HISTORY</div>
-        <div id="clock">
+        <div id="clock" style="font-weight:bold">
             <div id="time">--:--:--</div>
             <div id="date">--, -- --- ----</div>
         </div>
@@ -179,8 +169,22 @@
 
             {{-- Filter and Reset Buttons --}}
             <div>
-                <button type="submit">Filter</button>
+                <button type="submit" class="btn btn-primary">Filter</button>
                 <a href="{{ route('history') }}">Reset</a>
+            </div>
+
+            <div>
+                <label>
+                    Show:
+                    <select name="per_page">
+                        @foreach([10, 20, 50, 100] as $size)
+                        <option value="{{ $size }}" {{ request('per_page', 20) == $size ? 'selected' : '' }}>
+                            {{ $size }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <!-- {{ $leftData->links() }} -->
+                </label>
             </div>
 
             {{-- Spacer to push export to right --}}
@@ -203,6 +207,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Timestamp</th>
                             <th>RPM</th>
                             <th>Total Revs</th>
@@ -213,6 +218,7 @@
                     <tbody>
                         @foreach($leftData as $row)
                         <tr @if($row->alarm) style="background-color: #f88" @endif>
+                            <td>{{ $row->id }}</td>
                             <td>{{ $row->timestamp }}</td>
                             <td>{{ $row->rpm }}</td>
                             <td>{{ $row->total_revs }}</td>
@@ -255,6 +261,7 @@
         </div>
     </div>
 
+
     <footer class="footer-nav">
         <nav>
             <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">🖥 Dashboard</a>
@@ -263,6 +270,7 @@
     </footer>
 
     <script src="{{ asset('js/clock.js') }}"></script>
+
 </body>
 
 </html>

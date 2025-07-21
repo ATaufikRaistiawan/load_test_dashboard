@@ -29,7 +29,7 @@
         }
 
         .title {
-            font-size: 20px;
+            font-size: 30px;
             font-weight: bold;
         }
 
@@ -207,7 +207,7 @@
             <img src="{{ asset('images/ypmi_logo_big.png') }}" class="machine-logo">
         </div>
         <div class="title">DURABILITY LOAD TEST M/C</div>
-        <div id="clock">
+        <div id="clock" style="font-weight:bold">
             <div id="time">--:--:--</div>
             <div id="date">--, -- --- ----</div>
         </div>
