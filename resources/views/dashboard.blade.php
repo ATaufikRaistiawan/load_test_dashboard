@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Durability Load Test M/C</title>
+    <link rel="icon" href="{{ asset('images/ypmi_logo.png') }}" type="image/png">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,7 +22,8 @@
         }
 
         .logo {
-            font-size: 24px;
+            /* font-size: 24px; */
+            width: 6%;
             font-weight: bold;
             color: red;
         }
@@ -38,6 +41,17 @@
             display: inline-block;
             vertical-align: top;
             border-radius: 8px;
+        }
+
+        .stage-columns {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .stage-left,
+        .stage-right {
+            width: 48%;
         }
 
         .section-title {
@@ -116,11 +130,27 @@
             text-align: center;
         }
 
-        footer {
+        .footer-nav {
             background: #79c0f2;
             padding: 10px;
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+        }
+
+        .footer-nav nav a {
+            text-decoration: none;
+            padding: 8px 16px;
+            margin: 0 10px;
+            font-weight: bold;
+            border-radius: 4px;
+            color: black;
+            background-color: white;
+            border: 1px solid #000;
+        }
+
+        .footer-nav nav a.active {
+            background-color: #000;
+            color: white;
         }
 
         .nav-icon {
@@ -128,7 +158,19 @@
         }
 
         .machine-image {
-            width: 100px;
+            /* background-color: #fff; */
+            padding: 10px;
+            transform-origin: center;
+            width: 200px;
+            display: block;
+            margin: auto;
+        }
+
+        .machine-logo {
+            /* background-color: #fff; */
+            padding: 10px;
+            transform-origin: center;
+            width: 200px;
             display: block;
             margin: auto;
         }
@@ -136,10 +178,24 @@
         .status-box {
             padding: 10px 20px;
             font-weight: bold;
-            color: white;
+            color: black;
+            /* height: 20px; */
+            border: 2px solid #000;
             border-radius: 4px;
             text-align: center;
             width: 80px;
+        }
+
+        .work-status {
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+            /* color: red; */
+        }
+
+        .metric-row {
+            margin-bottom: 10px;
+        }
 
     </style>
 
@@ -147,7 +203,9 @@
 
 <body>
     <header>
-        <div class="logo">YAMAHA</div>
+        <div class="logo">
+            <img src="{{ asset('images/ypmi_logo_big.png') }}" class="machine-logo">
+        </div>
         <div class="title">DURABILITY LOAD TEST M/C</div>
         <div id="clock">
             <div id="time">--:--:--</div>
@@ -158,48 +216,59 @@
     <div style="display: flex; justify-content: center;">
         <!-- Left Stage -->
         <div class="stage">
+
             <div class="section-title">Left Stage</div>
-            <img src="{{ asset('images/wheel.png') }}" class="machine-image">
+            <div class="stage-columns">
+                <!-- Left Column: Wheel + Work Status -->
+                <div class="stage-left">
+                    <img src="{{ asset('images/wheel.png') }}" class="machine-image">
 
-            <div class="section-title">Work Status</div>
-            <div class="buttons">
-                <div id="left-run" class="status-box">RUN</div>
-                <div id="left-stop" class="status-box">STOP</div>
-            </div>
+                    <div class="section-title">Work Status</div>
+                    <div class="buttons">
+                        <div id="left-run" class="status-box">RUN</div>
+                        <div id="left-stop" class="status-box">STOP</div>
+                    </div>
+                </div>
 
-            <div class="card">
-                <div class="data-box-h2">
-                    <span>Speed (RPM)</span>
-                </div>
-                <div class="data-box-h3">
-                    <span>ACTUAL</span>
-                    <span>TARGET</span>
-                </div>
-                <div class="data-box">
-                    <span id="left-rpm">{{ $left->rpm ?? 'N/A' }}</span>
-                    <span>0</span>
-                </div>
-                <div class="data-box-h2">
-                    <span>Rev Counter</span>
-                </div>
-                <div class="data-box-h3">
-                    <span>ACTUAL</span>
-                    <span>TARGET</span>
-                </div>
-                <div class="data-box">
-                    <span id="left-revs">{{ $left->total_revs ?? 'N/A' }}</span>
-                    <span>0</span>
-                </div>
-                <div class="data-box-h2">
-                    <span>Load (kN)</span>
-                </div>
-                <div class="data-box-h3">
-                    <span>ACTUAL</span>
-                    <span>TARGET</span>
-                </div>
-                <div class="data-box">
-                    <span id="left-load">{{ $left->load_kn ?? 'N/A' }} kN</span>
-                    <span>0</span>
+                <!-- Right Column: Metrics -->
+                <div class="stage-right">
+                    <div class="card">
+                        <div class="data-box-h2">
+                            <span>Speed (RPM)</span>
+                        </div>
+                        <div class="data-box-h3">
+                            <span>ACTUAL</span>
+                            <span>TARGET</span>
+                        </div>
+                        <div class="data-box">
+                            <span id="left-rpm">{{ $left->rpm ?? 'N/A' }}</span>
+                            <span>0</span>
+                        </div>
+
+                        <div class="data-box-h2">
+                            <span>Rev Counter</span>
+                        </div>
+                        <div class="data-box-h3">
+                            <span>ACTUAL</span>
+                            <span>TARGET</span>
+                        </div>
+                        <div class="data-box">
+                            <span id="left-revs">{{ $left->total_revs ?? 'N/A' }}</span>
+                            <span>0</span>
+                        </div>
+
+                        <div class="data-box-h2">
+                            <span>Load (kN)</span>
+                        </div>
+                        <div class="data-box-h3">
+                            <span>ACTUAL</span>
+                            <span>TARGET</span>
+                        </div>
+                        <div class="data-box">
+                            <span id="left-load">{{ $left->load_kn ?? 'N/A' }} kN</span>
+                            <span>0</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -230,26 +299,58 @@
         <!-- Right Stage -->
         <div class="stage">
             <div class="section-title">Right Stage</div>
-            <img src="{{ asset('images/wheel.png') }}" class="machine-image">
 
-            <div class="section-title">Work Status</div>
-            <div class="buttons">
-                <div id="right-run" class="status-box">RUN</div>
-                <div id="right-stop" class="status-box">STOP</div>
-            </div>
+            <div class="stage-columns">
+                <!-- Left Column: Wheel + Work Status -->
+                <div class="stage-left">
+                    <img src="{{ asset('images/wheel.png') }}" class="machine-image">
 
-            <div class="card">
-                <div class="data-box">
-                    <span>Speed (RPM)<br>ACTUAL: 0</span>
-                    <span>TARGET: 0</span>
+                    <div class="section-title">Work Status</div>
+                    <div class="buttons">
+                        <div id="left-run" class="status-box">RUN</div>
+                        <div id="left-stop" class="status-box">STOP</div>
+                    </div>
                 </div>
-                <div class="data-box">
-                    <span>Rev Counter<br>ACTUAL: 0</span>
-                    <span>TARGET: 0</span>
-                </div>
-                <div class="data-box">
-                    <span>Load (kN)<br>ACTUAL: 0</span>
-                    <span>TARGET: 0</span>
+
+                <!-- Right Column: Metrics -->
+                <div class="stage-right">
+                    <div class="card">
+                        <div class="data-box-h2">
+                            <span>Speed (RPM)</span>
+                        </div>
+                        <div class="data-box-h3">
+                            <span>ACTUAL</span>
+                            <span>TARGET</span>
+                        </div>
+                        <div class="data-box">
+                            <span id="right-rpm">{{ $right->rpm ?? 'N/A' }}</span>
+                            <span>0</span>
+                        </div>
+
+                        <div class="data-box-h2">
+                            <span>Rev Counter</span>
+                        </div>
+                        <div class="data-box-h3">
+                            <span>ACTUAL</span>
+                            <span>TARGET</span>
+                        </div>
+                        <div class="data-box">
+                            <span id="right-revs">{{ $right->total_revs ?? 'N/A' }}</span>
+                            <span>0</span>
+                        </div>
+
+                        <div class="data-box-h2">
+                            <span>Load (kN)</span>
+                        </div>
+                        <div class="data-box-h3">
+                            <span>ACTUAL</span>
+                            <span>TARGET</span>
+                        </div>
+                        <div class="data-box">
+                            <span id="right-load">{{ $right->load_kn ?? 'N/A' }} kN</span>
+                            <span>0</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -276,15 +377,16 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 
-    <!-- <x-footer /> -->
     <footer class="footer-nav">
         <nav>
             <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">🖥 Dashboard</a>
             <a href="{{ route('history') }}" class="{{ request()->is('history') ? 'active' : '' }}">📜 History</a>
         </nav>
     </footer>
+
 
     <script src="{{ asset('js/status-indicator.js') }}"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>

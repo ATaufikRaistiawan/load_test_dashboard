@@ -27,3 +27,8 @@ Route::get('/api/machine-status', [DashboardController::class, 'getStatus']);
 // Latest data
 
 Route::get('/api/latest-data', [DashboardController::class, 'getLatestJson']);
+
+Route::get('/export-both', [HistoryController::class, 'exportBothStagesExcel']);
+
+Route::get('/history/export', [HistoryController::class, 'export'])->name('history.export');
+Route::get('/history', [HistoryController::class, 'index'])->name('history');
