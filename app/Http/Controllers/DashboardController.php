@@ -12,28 +12,45 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $data = MachineData::orderBy('timestamp', 'desc')->take(20)->get()->reverse();
-        
-        $timestamps = $data->pluck('timestamp')->map(function ($t) {
-            return \Carbon\Carbon::parse($t)->format('H:i:s');
-        });
-        $rpm = $data->pluck('rpm');
-        $revs = $data->pluck('total_revs');
-        $load = $data->pluck('load_kn');
+    // Fetch 20 latest records from both tables
+    $leftData = MachineLeftData::orderBy('id', 'desc')->take(10)->get()->reverse();
+    $rightData = MachineRightData::orderBy('id', 'desc')->take(10)->get()->reverse();
 
-        return view('dashboard', compact('data', 'timestamps', 'rpm', 'revs', 'load'));
+    // Extract data for charts or tables
+    $leftTimestamps = $leftData->pluck('timestamp')->map(fn($t) => \Carbon\Carbon::parse($t)->format('H:i:s'));
+    $leftRpm = $leftData->pluck('rpm');
+    $leftRevs = $leftData->pluck('total_revs');
+    $leftLoad = $leftData->pluck('load_kn');
+
+    $rightTimestamps = $rightData->pluck('timestamp')->map(fn($t) => \Carbon\Carbon::parse($t)->format('H:i:s'));
+    $rightRpm = $rightData->pluck('rpm');
+    $rightRevs = $rightData->pluck('total_revs');
+    $rightLoad = $rightData->pluck('load_kn');
+
+    return view('dashboard', compact(
+        'leftData',
+        'rightData',
+        'leftTimestamps',
+        'leftRpm',
+        'leftRevs',
+        'leftLoad',
+        'rightTimestamps',
+        'rightRpm',
+        'rightRevs',
+        'rightLoad'
+    ));
     }
-    public function getData()
-{
-    $data = MachineData::latest()->take(10)->get()->reverse(); // or whatever query you use
+//     public function getData()
+// {
+//     $data = MachineData::latest()->take(10)->get()->reverse(); // or whatever query you use
 
-    return response()->json([
-        'timestamps' => $data->pluck('timestamp'),
-        'rpm' => $data->pluck('rpm'),
-        'load' => $data->pluck('load_kn'),
-        'rows' => $data
-    ]);
-}
+//     return response()->json([
+//         'timestamps' => $data->pluck('timestamp'),
+//         'rpm' => $data->pluck('rpm'),
+//         'load' => $data->pluck('load_kn'),
+//         'rows' => $data
+//     ]);
+// }
     public function getLatestJson()
 {
     $left = MachineLeftData::latest('timestamp')->first();

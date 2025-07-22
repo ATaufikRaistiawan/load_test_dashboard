@@ -123,6 +123,10 @@
             margin-top: 10px;
         }
 
+        thead {
+            background: darkgrey;
+        }
+        
         table th,
         table td {
             border: 1px solid #ccc;
@@ -273,7 +277,7 @@
             </div>
 
             <table>
-                <thead>
+                <thead >
                     <tr>
                         <th>No</th>
                         <th>Date Time</th>
@@ -283,7 +287,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $row)
+                    @foreach($leftData as $row)
                     <tr>
                         <td>{{ $row->id }}</td>
                         <td>{{ $row->timestamp }}</td>
@@ -365,7 +369,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $row)
+                    @foreach($rightData as $row)
                     <tr>
                         <td>{{ $row->id }}</td>
                         <td>{{ $row->timestamp }}</td>

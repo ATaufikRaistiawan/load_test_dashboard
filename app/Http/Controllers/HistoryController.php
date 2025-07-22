@@ -34,40 +34,6 @@ class HistoryController extends Controller
     $rightData = $queryRight->orderBy('timestamp', 'desc')->paginate($perPage)->appends($request->all());
 
     return view('history', compact('leftData', 'rightData'));
-
-
-        // // LEFT
-        // $leftQuery = MachineLeftData::query();
-        // // RIGHT
-        // $rightQuery = MachineRightData::query();
-
-        // // Filters
-        // foreach ([$leftQuery, $rightQuery] as $query) {
-        //     if ($request->filled('from')) {
-        //         $query->whereDate('timestamp', '>=', $request->from);
-        //     }
-
-        //     if ($request->filled('to')) {
-        //         $query->whereDate('timestamp', '<=', $request->to);
-        //     }
-
-        //     if ($request->status === 'alarm') {
-        //         $query->where('alarm', true);
-        //     } elseif ($request->status === 'normal') {
-        //         $query->where(function ($q) {
-        //             $q->whereNull('alarm')->orWhere('alarm', false);
-        //         });
-        //     }
-
-        //     if ($request->filled('min_rpm')) {
-        //         $query->where('rpm', '>=', $request->min_rpm);
-        //     }
-        // }
-
-        // $leftData = $leftQuery->orderBy('timestamp', 'desc')->paginate(20, ['*'], 'left_page')->appends($request->all());
-        // $rightData = $rightQuery->orderBy('timestamp', 'desc')->paginate(20, ['*'], 'right_page')->appends($request->all());
-
-        // return view('history', compact('leftData', 'rightData'));
     }
 
 public function export(Request $request)
