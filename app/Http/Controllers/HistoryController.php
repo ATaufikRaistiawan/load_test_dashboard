@@ -12,11 +12,13 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 
+
 class HistoryController extends Controller
 {
     public function index(Request $request)
     {
-    $perPage = $request->input('per_page', 20); // default to 20
+    // dd($request->status);
+        $perPage = $request->input('per_page', 20); // default to 20
 
     $queryLeft = MachineLeftData::query();
     $queryRight = MachineRightData::query();
@@ -28,10 +30,21 @@ class HistoryController extends Controller
         $queryRight->where('timestamp', '>=', $request->from);
     }
 
+    if ($request->filled('status')) {
+        if ($request->status == 'alarm') {
+            $queryLeft->where('alarm', '>', 0);
+            $queryRight->where('alarm', '>', 0);
+        }
+    
+        elseif ($request->status == 'normal') {
+            $queryLeft->where('alarm', '=', 0);
+            $queryRight->where('alarm', '=', 0);
+    }
+    }
     // ... same for other filters
 
-    $leftData = $queryLeft->orderBy('timestamp', 'desc')->paginate($perPage)->appends($request->all());
-    $rightData = $queryRight->orderBy('timestamp', 'desc')->paginate($perPage)->appends($request->all());
+    $leftData = $queryLeft->orderBy('id', 'desc')->paginate($perPage)->appends($request->all());
+    $rightData = $queryRight->orderBy('id', 'desc')->paginate($perPage)->appends($request->all());
 
     return view('history', compact('leftData', 'rightData'));
     }

@@ -6,6 +6,8 @@
     <title>Durability Load Test M/C</title>
     <link rel="icon" href="{{ asset('images/ypmi_logo.png') }}" type="image/png">
 
+    <!-- using vite to insert chart library from app.js -->
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -126,7 +128,7 @@
         thead {
             background: darkgrey;
         }
-        
+
         table th,
         table td {
             border: 1px solid #ccc;
@@ -276,7 +278,18 @@
                 </div>
             </div>
 
-            <table>
+            <!-- display charts -->
+            <div class="p-4">
+                <h2>Left Stage: Load vs Time</h2>
+                <canvas id="leftLoadChart" width="400" height="200"></canvas>
+            </div>
+
+            <div class="p-4">
+                <h2>Left Stage: RPM vs Time</h2>
+                <canvas id="leftRpmChart" width="400" height="200"></canvas>
+            </div>
+
+            <!-- <table>
                 <thead >
                     <tr>
                         <th>No</th>
@@ -297,7 +310,7 @@
                     </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> -->
         </div>
 
         <!-- Right Stage -->
@@ -395,7 +408,19 @@
     <script src="{{ asset('js/status-indicator.js') }}"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="{{ asset('js/clock.js') }}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.initCharts) window.initCharts();
+        });
+
+    </script>
+    @vite('resources/js/app.js')
+    @vite('resources/css/app.css')
+
+
 </body>
+
 
 
 

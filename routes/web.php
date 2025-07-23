@@ -33,3 +33,4 @@ Route::get('/export-both', [HistoryController::class, 'exportBothStagesExcel']);
 Route::get('/history/export', [HistoryController::class, 'export'])->name('history.export');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/history/export', [HistoryController::class, 'export'])->name('history.export');
+Route::get('/dashboard/data', [DashboardController::class, 'getLatestJson']);
