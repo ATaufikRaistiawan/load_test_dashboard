@@ -40,17 +40,6 @@ class DashboardController extends Controller
         'rightLoad'
     ));
     }
-//     public function getData()
-// {
-//     $data = MachineData::latest()->take(10)->get()->reverse(); // or whatever query you use
-
-//     return response()->json([
-//         'timestamps' => $data->pluck('timestamp'),
-//         'rpm' => $data->pluck('rpm'),
-//         'load' => $data->pluck('load_kn'),
-//         'rows' => $data
-//     ]);
-// }
     public function getLatestJson()
 {
     $left = MachineLeftData::latest('timestamp')->first();

@@ -246,7 +246,7 @@
                         </div>
                         <div class="data-box">
                             <span id="left-rpm">{{ $left->rpm ?? 'N/A' }}</span>
-                            <span>0</span>
+                            <span id="left-rpm_target">{{ $left->rpm_target ?? 'N/A' }}</span>
                         </div>
 
                         <div class="data-box-h2">
@@ -258,7 +258,7 @@
                         </div>
                         <div class="data-box">
                             <span id="left-revs">{{ $left->total_revs ?? 'N/A' }}</span>
-                            <span>0</span>
+                            <span id="left-revs_target">{{ $left->total_revs_target ?? 'N/A' }}</span>
                         </div>
 
                         <div class="data-box-h2">
@@ -270,7 +270,7 @@
                         </div>
                         <div class="data-box">
                             <span id="left-load">{{ $left->load_kn ?? 'N/A' }} kN</span>
-                            <span>0</span>
+                            <span id="left-load_target">{{ $left->load_kn_target ?? 'N/A' }} kN</span>
                         </div>
                     </div>
                 </div>
@@ -311,8 +311,8 @@
 
                     <div class="section-title">Work Status</div>
                     <div class="buttons">
-                        <div id="left-run" class="status-box">RUN</div>
-                        <div id="left-stop" class="status-box">STOP</div>
+                        <div id="right-run" class="status-box">RUN</div>
+                        <div id="right-stop" class="status-box">STOP</div>
                     </div>
                 </div>
 
@@ -328,7 +328,7 @@
                         </div>
                         <div class="data-box">
                             <span id="right-rpm">{{ $right->rpm ?? 'N/A' }}</span>
-                            <span>0</span>
+                            <span id="right-rpm_target">{{ $right->rpm_target ?? 'N/A' }}</span>
                         </div>
 
                         <div class="data-box-h2">
@@ -340,7 +340,7 @@
                         </div>
                         <div class="data-box">
                             <span id="right-revs">{{ $right->total_revs ?? 'N/A' }}</span>
-                            <span>0</span>
+                            <span id="right-revs_target">{{ $right->total_revs_target ?? 'N/A' }}</span>
                         </div>
 
                         <div class="data-box-h2">
@@ -352,7 +352,7 @@
                         </div>
                         <div class="data-box">
                             <span id="right-load">{{ $right->load_kn ?? 'N/A' }} kN</span>
-                            <span>0</span>
+                            <span id="right-load_target">{{ $right->load_kn_target ?? 'N/A' }} kN</span>
                         </div>
                     </div>
                 </div>

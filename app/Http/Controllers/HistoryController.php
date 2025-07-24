@@ -36,7 +36,7 @@ class HistoryController extends Controller
         }
         elseif ($request->status == 'normal') {
             $queryRight->where('alarm','=','0' );
-            $queryLeft->where('alarm','=','0' );
+            $queryLeft  ->where('alarm','=','0' );
         }
     }
 
@@ -46,6 +46,8 @@ class HistoryController extends Controller
 
     return view('history', compact('leftData', 'rightData'));
     }
+
+    // Your existing index() method...
 
 public function export(Request $request)
 {
@@ -74,35 +76,44 @@ public function export(Request $request)
         $rightQuery->where('rpm', '>=', $request->min_rpm);
     }
 
-    $leftData = $leftQuery->get();
-    $rightData = $rightQuery->get();
+    
+    // $leftData = $leftQuery->get();
+    // $rightData = $rightQuery->get();
+    $perPage = $request->input('per_page', 20);
+    $page = $request->input('page', 1);
+    $offset = ($page - 1) * $perPage;
+
+    $leftData = $leftQuery->orderBy('id', 'desc')->offset($offset)->limit($perPage)->get();
+    $rightData = $rightQuery->orderBy('id', 'desc')->offset($offset)->limit($perPage)->get();
+
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
 
     // Title
-    $sheet->mergeCells('A1:E1');
+    $sheet->mergeCells('A1:F1');
     $sheet->setCellValue('A1', 'Left Stage');
-    $sheet->mergeCells('G1:K1');
-    $sheet->setCellValue('G1', 'Right Stage');
+    $sheet->mergeCells('H1:M1');
+    $sheet->setCellValue('H1', 'Right Stage');
 
     // Header
-    $headers = ['Timestamp', 'RPM', 'Total Revs', 'Load (kN)', 'Status'];
+    $headers = ['ID','Timestamp', 'RPM', 'Total Revs', 'Load (kN)', 'Status'];
     $sheet->fromArray($headers, null, 'A2');
-    $sheet->fromArray($headers, null, 'G2');
+    $sheet->fromArray($headers, null, 'H2');
 
     // Style header
     $headerStyle = [
         'font' => ['bold' => true],
         'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]],
     ];
-    $sheet->getStyle('A2:E2')->applyFromArray($headerStyle);
-    $sheet->getStyle('G2:K2')->applyFromArray($headerStyle);
+    $sheet->getStyle('A2:F2')->applyFromArray($headerStyle);
+    $sheet->getStyle('H2:M2')->applyFromArray($headerStyle);
 
     // Insert data
     $row = 3;
     foreach ($leftData as $ld) {
         $sheet->fromArray([
+            $ld->id,
             $ld->timestamp,
             $ld->rpm,
             $ld->total_revs,
@@ -115,26 +126,27 @@ public function export(Request $request)
     $row = 3;
     foreach ($rightData as $rd) {
         $sheet->fromArray([
+            $rd->id,
             $rd->timestamp,
             $rd->rpm,
             $rd->total_revs,
             $rd->load_kn,
             $rd->alarm ? 'ALARM' : 'Normal',
-        ], null, 'G' . $row);
+        ], null, 'H' . $row);
         $row++;
     }
 
     // Apply border to data
     $leftEnd = 2 + count($leftData);
     $rightEnd = 2 + count($rightData);
-    $sheet->getStyle("A2:E$leftEnd")->applyFromArray(['borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]]]);
-    $sheet->getStyle("G2:K$rightEnd")->applyFromArray(['borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]]]);
+    $sheet->getStyle("A2:F$leftEnd")->applyFromArray(['borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]]]);
+    $sheet->getStyle("H2:M$rightEnd")->applyFromArray(['borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]]]);
 
     // Auto size
     foreach (range('A', 'E') as $col) {
         $sheet->getColumnDimension($col)->setAutoSize(true);
     }
-    foreach (range('G', 'K') as $col) {
+    foreach (range('H', 'M') as $col) {
         $sheet->getColumnDimension($col)->setAutoSize(true);
     }
 
@@ -146,6 +158,5 @@ public function export(Request $request)
 
     return Response::download($tempPath)->deleteFileAfterSend(true);
 }
-
 
 }

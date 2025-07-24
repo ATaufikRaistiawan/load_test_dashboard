@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::table('machine_data', function (Blueprint $table) {
             //
-            $table->boolean('left_status')->default(false);
-            $table->timestamp('timestamp')->useCurrent();
-            $table->integer('rpm');
-            $table->float('load_kn');
-            $table->bigInteger('total_revs');
-            $table->boolean('alarm')->default(false);
-            $table->timestamps();
+            // $table->boolean('left_status')->default(false);
+            // $table->timestamp('timestamp')->useCurrent();
+            // $table->integer('rpm');
+            // $table->float('load_kn');
+            // $table->bigInteger('total_revs');
+            // $table->boolean('alarm')->default(false);
+            // $table->timestamps();
         });
     }
 
