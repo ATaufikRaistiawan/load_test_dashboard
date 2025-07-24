@@ -29,9 +29,20 @@ class HistoryController extends Controller
     }
 
     // ... same for other filters
+    if ($request->filled(key: 'status')) {
+        if ($request->status == 'alarm') {
+            $queryRight->where('alarm','>','0' );
+            $queryLeft->where('alarm','>','0' );
+        }
+        elseif ($request->status == 'normal') {
+            $queryRight->where('alarm','=','0' );
+            $queryLeft->where('alarm','=','0' );
+        }
+    }
 
-    $leftData = $queryLeft->orderBy('timestamp', 'desc')->paginate($perPage)->appends($request->all());
-    $rightData = $queryRight->orderBy('timestamp', 'desc')->paginate($perPage)->appends($request->all());
+
+    $leftData = $queryLeft->orderBy('id', 'desc')->paginate($perPage)->appends($request->all());
+    $rightData = $queryRight->orderBy('id', 'desc')->paginate($perPage)->appends($request->all());
 
     return view('history', compact('leftData', 'rightData'));
     }

@@ -237,6 +237,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Timestamp</th>
                             <th>RPM</th>
                             <th>Total Revs</th>
@@ -247,6 +248,7 @@
                     <tbody>
                         @foreach($rightData as $row)
                         <tr @if($row->alarm) style="background-color: #f88" @endif>
+                            <td>{{ $row->id }}</td>
                             <td>{{ $row->timestamp }}</td>
                             <td>{{ $row->rpm }}</td>
                             <td>{{ $row->total_revs }}</td>
