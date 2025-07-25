@@ -64,11 +64,16 @@ public function export(Request $request)
         $leftQuery->where('timestamp', '<=', $request->to);
         $rightQuery->where('timestamp', '<=', $request->to);
     }
-
-    if ($request->filled('status')) {
-        $isAlarm = $request->status === 'alarm';
-        $leftQuery->where('alarm', $isAlarm);
-        $rightQuery->where('alarm', $isAlarm);
+    
+    if ($request->filled(key: 'status')) {
+        if ($request->status == 'alarm') {
+            $rightQuery->where('alarm','>','0' );
+            $leftQuery->where('alarm','>','0' );
+        }
+        elseif ($request->status == 'normal') {
+            $rightQuery->where('alarm','=','0' );
+            $leftQuery  ->where('alarm','=','0' );
+        }
     }
 
     if ($request->filled('min_rpm')) {
